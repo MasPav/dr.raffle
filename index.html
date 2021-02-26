@@ -20,9 +20,6 @@
         margin-top: -50px;
         z-index: 1;
       }
-      .canvasContainer {
-        position: relative;
-      }
     </style>
   </head>
 
@@ -32,18 +29,10 @@
         <div class="winnersWrapper hidden">
           <div class="winners">
             <h1 class="text-5xl">Winners</h1>
-            <ul class="text-2xl space-y-2">
-              <li>Cyprian Ampong Boateng</li>
-              <li>Isla-Grace Hensley</li>
-              <li>Vinny Pearce</li>
-              <li>Pawel Donnelly</li>
-              <li>Gavin Brewer</li>
-              <li>Brenda Bond</li>
-            </ul>
+            <ul class="text-2xl space-y-2 winnersList"></ul>
           </div>
           <div class="mt-32 winner">
-            <h1 class="text-5xl font-extralight">Winner</h1>
-            <h1 class="text-6xl">Cyprian Ampong Boateng</h1>
+            <h1 class="text-6xl winnerName"></h1>
           </div>
         </div>
         <div class="wheelDiv">
@@ -60,9 +49,9 @@
             >
               <i class="fas fa-undo"></i> Reset
             </button>
-            <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
+            <!-- <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
               <i class="fas fa-sliders-h"></i> Settings
-            </button>
+            </button> -->
           </div>
           <div class="canvasContainer mt-5">
             <i class="fas fa-arrow-down text-5xl"></i>
@@ -88,9 +77,9 @@
             >
               <i class="fas fa-undo"></i> Reset
             </button>
-            <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
+            <!-- <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
               <i class="fas fa-sliders-h"></i> Settings
-            </button>
+            </button> -->
           </div>
         </div>
       </div>

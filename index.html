@@ -10,67 +10,91 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
     <link rel="stylesheet" href="./app.css" />
-    <script src="./src/Winwheel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap"></script>
+    <script src="./src/js/Winwheel.min.js"></script>
+    <style>
+      .fa-hand-point-down {
+        z-index: 999 !important;
+      }
+      #raffle-canvas {
+        margin-top: -50px;
+        z-index: 1;
+      }
+      .canvasContainer {
+        position: relative;
+      }
+    </style>
   </head>
+
   <body>
-    <main class="container h-screen">
-      <div class="h-screen sm:flex">
-        <div class="sm:w-2/5 my-auto">
+    <main class="h-screen">
+      <div class="py-2 text-center mainDiv">
+        <div class="winnersWrapper hidden">
+          <div class="winners">
+            <h1 class="text-5xl">Winners</h1>
+            <ul class="text-2xl space-y-2">
+              <li>Cyprian Ampong Boateng</li>
+              <li>Isla-Grace Hensley</li>
+              <li>Vinny Pearce</li>
+              <li>Pawel Donnelly</li>
+              <li>Gavin Brewer</li>
+              <li>Brenda Bond</li>
+            </ul>
+          </div>
+          <div class="mt-32 winner">
+            <h1 class="text-5xl font-extralight">Winner</h1>
+            <h1 class="text-6xl">Cyprian Ampong Boateng</h1>
+          </div>
+        </div>
+        <div class="wheelDiv">
           <img
             src="./images/awsaccra_logo.png"
             alt="awsaccra_logo"
-            class="h-40 md:h-96 m-auto shadow-2xl rounded-lg p-5"
+            class="w-32 mx-auto"
           />
-          <div class="text-center mt-2 md:mt-5 space-x-3">
-            <button class="rounded p-2">
-              <i class="fab fa-twitter fa-lg text-blue-500"></i>
-            </button>
-            <button class="rounded p-2 mb-2">
-              <i class="fab fa-youtube fa-lg text-red-600"></i>
-            </button>
-            <strong class="text-lg">@awsaccra</strong>
-            <strong class="block"
-              ><i class="fas fa-phone fa-lg mb-2 sm:mb-0"></i>
-              <span>0246840995</span></strong
+          <h1 class="text-5xl mt-5">Lucky Wheel</h1>
+          <div class="lg:hidden">
+            <button
+              class="py-2 px-8 hover:bg-black hover:text-white rounded"
+              onclick="onResetWheel();"
             >
+              <i class="fas fa-undo"></i> Reset
+            </button>
+            <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
+              <i class="fas fa-sliders-h"></i> Settings
+            </button>
           </div>
-        </div>
-        <div
-          class="sm:w-3/5 border-auto sm:border-l-2 border-yellow-600 text-center"
-        >
-          <canvas height="500" width="400" id="raffle-canvas" class="m-auto">
-            Raffle not supported, please use a different browser.
-          </canvas>
-          <button class="py-2 px-8 text-white bg-blue-800 rounded">Spin</button>
-          <button class="p-5">Reset</button>
+          <div class="canvasContainer mt-5">
+            <i class="fas fa-arrow-down text-5xl"></i>
+            <!-- <img
+              src="./images/prize_pointer.png"
+              alt=""
+              class="prizePointer mx-auto"
+            /> -->
+            <canvas
+              height="700"
+              width="600"
+              id="raffle-canvas"
+              class="m-auto cursor-pointer"
+              onclick="onSpinWheel();"
+            >
+              Raffle not supported, please use a different browser.
+            </canvas>
+          </div>
+          <div class="hidden lg:block">
+            <button
+              class="py-2 px-8 hover:bg-black hover:text-white rounded"
+              onclick="onResetWheel();"
+            >
+              <i class="fas fa-undo"></i> Reset
+            </button>
+            <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
+              <i class="fas fa-sliders-h"></i> Settings
+            </button>
+          </div>
         </div>
       </div>
     </main>
-    <script>
-      const segments = [
-        { text: "text1" },
-        { text: "text2" },
-        { text: "text3" },
-        { text: "text4" },
-        { text: "text5" },
-        { text: "text5" },
-        { text: "text5" },
-        { text: "text5" },
-        { text: "text5" },
-        { text: "text5" },
-      ];
-      segments.forEach((segment, index) => {
-        segment.fillStyle = index % 2 === 0 ? "#e47911" : "white";
-      });
-      let theWheel = new Winwheel({
-        canvasId: "raffle-canvas",
-        numSegments: segments.length,
-        fillStyle: "tomato",
-        lineWidth: "1",
-        responsive: true,
-        segments: segments,
-        textFontFamily: "Verdana",
-      });
-    </script>
+    <script src="./src/js/app.js"></script>
   </body>
 </html>

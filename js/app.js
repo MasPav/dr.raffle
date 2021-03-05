@@ -1,4 +1,5 @@
 let theWheel;
+let raffleConfig = {}
 const raffleData = [{
         name: 'Akwasi Boateng'
     },
@@ -52,11 +53,27 @@ $(function () {
     });
     $('#raffleTitleInput').on('keyup', function () {
         $('#raffleTitle').text($(this).val())
+    });
+    // raffle size
+    $('#raffleSize').on('change', function () {
+        // switch ($(this).val()) {
+        //     case 'sm':
+        //         raffleConfig.size = 300;
+        //         break;
+        //     case 'md':
+        //         raffleConfig.size = 500;
+        //         break;
+        //     default:
+        //         raffleConfig.size = 700;
+        //         break;
+        // }
+        // $('#raffleCanvas').prop('height', $(this).val());
+        // console.log($('#raffleCanvas'));
     })
 });
 const initWinWheel = () => {
     theWheel = new Winwheel({
-        canvasId: 'raffle-canvas',
+        canvasId: 'raffleCanvas',
         numSegments: raffleData.length,
         lineWidth: '3',
         responsive: true,

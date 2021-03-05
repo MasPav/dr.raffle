@@ -18,7 +18,7 @@
 
 <body>
   <div class="min-vh-100 max-vw-100">
-    <nav class="navbar shadow-sm p-0" style="height: 7vh">
+    <nav class="navbar shadow p-0" style="height: 5vh">
       <div class="container">
         <a class="navbar-brand mx-auto text-dark fs-3" href="/" style="font-family: 'dancing script'">Dr. Raffle</a>
         <ul class="navbar-nav mr-auto">
@@ -31,12 +31,12 @@
         </ul>
       </div>
     </nav>
-    <main style="height: 93vh" class="py-2">
+    <main style="height: 95vh" class="py-2">
       <p class="text-center raffleTitle fs-4" id="raffleTitle">Raffle Title</p>
       <div class="d-flex justify-content-around">
         <div class="flex-fill">left</div>
         <div class="text-center">
-          <canvas height="600" width="600" id="raffle-canvas" class="m-auto cursor-pointer">
+          <canvas height="700" width="700" id="raffleCanvas" class="m-auto cursor-pointer">
             Raffle not supported, please use a different browser.
           </canvas>
         </div>
@@ -67,17 +67,26 @@
                   href="#list-settings" role="tab" aria-controls="settings">Settings</a>
               </div>
             </div>
-            <div class="col-8 bg-light p-2">
+            <div class="col-8 bg-light p-3">
               <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-general" role="tabpanel"
                   aria-labelledby="list-general-list">
-                  <div class="form-check form-switch text">
-                    <input class="form-check-input" type="checkbox" id="showRaffleTitleSwitch" checked>
-                    <label class="form-check-label" for="showRaffleTitleSwitch">Show Title</label>
+                  <div class="form-group mb-3">
+                    <div class="form-check form-switch text">
+                      <input class="form-check-input" type="checkbox" id="showRaffleTitleSwitch" checked>
+                      <label class="form-check-label" for="showRaffleTitleSwitch">Show Title</label>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Title" id="raffleTitleInput"
+                      value="Raffle Title">
                   </div>
-                  <input type="text" class="form-control" placeholder="Title" id="raffleTitleInput"
-                    value="Raffle Title">
-
+                  <div class="form-group">
+                    <label for="raffleSize">Size</label>
+                    <select class="form-select" id="raffleSize">
+                      <option value="300">Small</option>
+                      <option value="500" selected>Medium</option>
+                      <option value="700">Large</option>
+                    </select>
+                  </div>
                 </div>
                 <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
                   profile

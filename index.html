@@ -4,86 +4,171 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lucky Wheel</title>
+    <title>Dr. Raffle</title>
+    <!--Import Google Icon Font-->
     <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="./app.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./css/app.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap"></script>
-    <script src="./src/js/Winwheel.min.js"></script>
-    <style>
-      .fa-hand-point-down {
-        z-index: 999 !important;
-      }
-      #raffle-canvas {
-        margin-top: -50px;
-        z-index: 1;
-      }
-    </style>
   </head>
 
   <body>
-    <main class="h-screen">
-      <div class="py-2 text-center mainDiv">
-        <div class="winnersWrapper hidden">
-          <div class="winners">
-            <h1 class="text-5xl">Winners</h1>
-            <ul class="text-2xl space-y-2 winnersList"></ul>
-          </div>
-          <div class="mt-32 winner">
-            <h1 class="text-6xl winnerName"></h1>
-          </div>
+    <div class="min-vh-100 max-vw-100">
+      <nav class="navbar shadow-sm p-0" style="height: 7vh">
+        <div class="container">
+          <a
+            class="navbar-brand mx-auto text-dark fs-3"
+            href="/"
+            style="font-family: 'dancing script'"
+            >Dr. Raffle</a
+          >
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a
+                data-bs-toggle="modal"
+                data-bs-target="#settingsModal"
+                class="text-dark btn"
+                class="black-text text-2xl px-1 py-0 hover:shadow-md rounded-full hover:bg-gray-100 focus:outline-none"
+              >
+                <i class="material-icons">settings</i>
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class="wheelDiv">
-          <img
-            src="./images/awsaccra_logo.png"
-            alt="awsaccra_logo"
-            class="w-32 mx-auto"
-          />
-          <h1 class="text-5xl mt-5">Lucky Wheel</h1>
-          <div class="lg:hidden">
+      </nav>
+      <main style="height: 93vh">
+        <p class="text-center raffleTitle fs-4">Raffle Title</p>
+        <div class="d-flex justify-content-around">
+          <div class="flex-fill">left</div>
+          <div class="flex-fill">center</div>
+          <div class="flex-fill">right</div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="settingsModal"
+      tabindex="-1"
+      aria-labelledby="settingsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header shadow">
+            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
             <button
-              class="py-2 px-8 hover:bg-black hover:text-white rounded"
-              onclick="onResetWheel();"
-            >
-              <i class="fas fa-undo"></i> Reset
-            </button>
-            <!-- <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
-              <i class="fas fa-sliders-h"></i> Settings
-            </button> -->
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
-          <div class="canvasContainer mt-5">
-            <i class="fas fa-arrow-down text-5xl"></i>
-            <!-- <img
-              src="./images/prize_pointer.png"
-              alt=""
-              class="prizePointer mx-auto"
-            /> -->
-            <canvas
-              height="700"
-              width="600"
-              id="raffle-canvas"
-              class="m-auto cursor-pointer"
-              onclick="onSpinWheel();"
-            >
-              Raffle not supported, please use a different browser.
-            </canvas>
-          </div>
-          <div class="hidden lg:block">
-            <button
-              class="py-2 px-8 hover:bg-black hover:text-white rounded"
-              onclick="onResetWheel();"
-            >
-              <i class="fas fa-undo"></i> Reset
-            </button>
-            <!-- <button class="py-2 px-8 hover:bg-black hover:text-white rounded">
-              <i class="fas fa-sliders-h"></i> Settings
-            </button> -->
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-4 p-0">
+                <div
+                  class="list-group list-group-flush"
+                  id="list-tab"
+                  role="tablist"
+                >
+                  <a
+                    class="list-group-item list-group-item-action active"
+                    id="list-home-list"
+                    data-bs-toggle="list"
+                    href="#list-home"
+                    role="tab"
+                    aria-controls="home"
+                    >Home</a
+                  >
+                  <a
+                    class="list-group-item list-group-item-action"
+                    id="list-profile-list"
+                    data-bs-toggle="list"
+                    href="#list-profile"
+                    role="tab"
+                    aria-controls="profile"
+                    >Profile</a
+                  >
+                  <a
+                    class="list-group-item list-group-item-action"
+                    id="list-messages-list"
+                    data-bs-toggle="list"
+                    href="#list-messages"
+                    role="tab"
+                    aria-controls="messages"
+                    >Messages</a
+                  >
+                  <a
+                    class="list-group-item list-group-item-action"
+                    id="list-settings-list"
+                    data-bs-toggle="list"
+                    href="#list-settings"
+                    role="tab"
+                    aria-controls="settings"
+                    >Settings</a
+                  >
+                </div>
+              </div>
+              <div class="col-8 bg-light">
+                <div class="tab-content" id="nav-tabContent">
+                  <div
+                    class="tab-pane fade show active"
+                    id="list-home"
+                    role="tabpanel"
+                    aria-labelledby="list-home-list"
+                  >
+                    home
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="list-profile"
+                    role="tabpanel"
+                    aria-labelledby="list-profile-list"
+                  >
+                    profile
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="list-messages"
+                    role="tabpanel"
+                    aria-labelledby="list-messages-list"
+                  >
+                    messages
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="list-settings"
+                    role="tabpanel"
+                    aria-labelledby="list-settings-list"
+                  >
+                    settings
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </main>
-    <script src="./src/js/app.js"></script>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script src="./src/js/app.js"></script> -->
   </body>
 </html>

@@ -1,162 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dr. Raffle</title>
-    <!--Import Google Icon Font-->
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <link href="./css/app.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap"></script>
-  </head>
 
-  <body>
-    <div class="min-vh-100 max-vw-100">
-      <nav class="navbar shadow-sm p-0" style="height: 7vh">
-        <div class="container">
-          <a
-            class="navbar-brand mx-auto text-dark fs-3"
-            href="/"
-            style="font-family: 'dancing script'"
-            >Dr. Raffle</a
-          >
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a
-                data-bs-toggle="modal"
-                data-bs-target="#settingsModal"
-                class="text-dark btn"
-                class="black-text text-2xl px-1 py-0 hover:shadow-md rounded-full hover:bg-gray-100 focus:outline-none"
-              >
-                <i class="material-icons">settings</i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <main style="height: 93vh">
-        <p class="text-center raffleTitle fs-4">Raffle Title</p>
-        <div class="d-flex justify-content-around">
-          <div class="flex-fill">left</div>
-          <div class="flex-fill">center</div>
-          <div class="flex-fill">right</div>
-        </div>
-      </main>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Raffle</title>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
+  <link href="./css/app.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap"></script>
+  <script src="./js/Winwheel.min.js"></script>
+</head>
 
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="settingsModal"
-      tabindex="-1"
-      aria-labelledby="settingsModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header shadow">
-            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-4 p-0">
-                <div
-                  class="list-group list-group-flush"
-                  id="list-tab"
-                  role="tablist"
-                >
-                  <a
-                    class="list-group-item list-group-item-action active"
-                    id="list-home-list"
-                    data-bs-toggle="list"
-                    href="#list-home"
-                    role="tab"
-                    aria-controls="home"
-                    >Home</a
-                  >
-                  <a
-                    class="list-group-item list-group-item-action"
-                    id="list-profile-list"
-                    data-bs-toggle="list"
-                    href="#list-profile"
-                    role="tab"
-                    aria-controls="profile"
-                    >Profile</a
-                  >
-                  <a
-                    class="list-group-item list-group-item-action"
-                    id="list-messages-list"
-                    data-bs-toggle="list"
-                    href="#list-messages"
-                    role="tab"
-                    aria-controls="messages"
-                    >Messages</a
-                  >
-                  <a
-                    class="list-group-item list-group-item-action"
-                    id="list-settings-list"
-                    data-bs-toggle="list"
-                    href="#list-settings"
-                    role="tab"
-                    aria-controls="settings"
-                    >Settings</a
-                  >
-                </div>
+<body>
+  <div class="min-vh-100 max-vw-100">
+    <nav class="navbar shadow-sm p-0" style="height: 7vh">
+      <div class="container">
+        <a class="navbar-brand mx-auto text-dark fs-3" href="/" style="font-family: 'dancing script'">Dr. Raffle</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a data-bs-toggle="modal" data-bs-target="#settingsModal" class="text-dark btn"
+              class="black-text text-2xl px-1 py-0 hover:shadow-md rounded-full hover:bg-gray-100 focus:outline-none">
+              <i class="material-icons">settings</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main style="height: 93vh" class="py-2">
+      <p class="text-center raffleTitle fs-4" id="raffleTitle">Raffle Title</p>
+      <div class="d-flex justify-content-around">
+        <div class="flex-fill">left</div>
+        <div class="text-center">
+          <canvas height="600" width="600" id="raffle-canvas" class="m-auto cursor-pointer">
+            Raffle not supported, please use a different browser.
+          </canvas>
+        </div>
+        <div class="flex-fill">right</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header shadow">
+          <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-0">
+          <div class="row">
+            <div class="col-4 p-0">
+              <div class="list-group list-group-flush" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-general-list" data-bs-toggle="list"
+                  href="#list-general" role="tab" aria-controls="general">General</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list"
+                  href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list"
+                  href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+                  href="#list-settings" role="tab" aria-controls="settings">Settings</a>
               </div>
-              <div class="col-8 bg-light">
-                <div class="tab-content" id="nav-tabContent">
-                  <div
-                    class="tab-pane fade show active"
-                    id="list-home"
-                    role="tabpanel"
-                    aria-labelledby="list-home-list"
-                  >
-                    home
+            </div>
+            <div class="col-8 bg-light p-2">
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-general" role="tabpanel"
+                  aria-labelledby="list-general-list">
+                  <div class="form-check form-switch text">
+                    <input class="form-check-input" type="checkbox" id="showRaffleTitleSwitch" checked>
+                    <label class="form-check-label" for="showRaffleTitleSwitch">Show Title</label>
                   </div>
-                  <div
-                    class="tab-pane fade"
-                    id="list-profile"
-                    role="tabpanel"
-                    aria-labelledby="list-profile-list"
-                  >
-                    profile
-                  </div>
-                  <div
-                    class="tab-pane fade"
-                    id="list-messages"
-                    role="tabpanel"
-                    aria-labelledby="list-messages-list"
-                  >
-                    messages
-                  </div>
-                  <div
-                    class="tab-pane fade"
-                    id="list-settings"
-                    role="tabpanel"
-                    aria-labelledby="list-settings-list"
-                  >
-                    settings
-                  </div>
+                  <input type="text" class="form-control" placeholder="Title" id="raffleTitleInput"
+                    value="Raffle Title">
+
+                </div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                  profile
+                </div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                  messages
+                </div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                  settings
                 </div>
               </div>
             </div>
@@ -164,11 +94,14 @@
         </div>
       </div>
     </div>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-      crossorigin="anonymous"
-    ></script>
-    <!-- <script src="./src/js/app.js"></script> -->
-  </body>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+  </script>
+  <script src="./js/app.js"></script>
+</body>
+
 </html>

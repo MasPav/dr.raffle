@@ -1,3 +1,12 @@
-.h-4 {
-  height: 3rem;
+.hidden {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.span-mr {
+  margin-right: 5px;
+}
+.hover-cursor-pointer:hover {
+  cursor: pointer;
 }

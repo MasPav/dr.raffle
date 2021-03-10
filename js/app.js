@@ -152,13 +152,13 @@ onSaveSettingsChanges = () => {
   raffleSettings.data.items = raffleSettings.data.items.filter(
     item => item !== null
   );
-  // if (raffleSettings.data.items.length <= 1) {
-  //   alert('Not enough or no data has been provided for your raffle');
-  //   return;
-  // }
+  if (raffleSettings.data.items.length <= 1) {
+    alert('Not enough or no data has been provided for your raffle');
+    return;
+  }
   raffleSettings.data.originalItems = raffleSettings.data.items.slice();
   raffleSettings.general.title = $('#raffleTitleInput').val();
-  window.localStorage.setItem('userSettings', JSON.stringify(raffleSettings));
+  raffleSettings.general.rememberSettings ? window.localStorage.setItem('userSettings', JSON.stringify(raffleSettings)) : window.localStorage.removeItem('userSettings', JSON.stringify(raffleSettings));
   updateRaffleArea();
   updateWheel();
   $('#settingsModal').modal('hide');
@@ -166,15 +166,7 @@ onSaveSettingsChanges = () => {
 $(function () {
   // initalize boostrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
-  // load remembered raffle if any
-  // if (window.localStorage.getItem('userRaffle')) {
-  //   $('#raffleArea, #welcomeCard').toggle();
-  //   raffleSettings = JSON.parse(window.localStorage.getItem('userRaffle'));
-  //   updateWheel();
-  // }
-  // raffleSettings.data.items = ["one", "two"];
-  // updateWheel();
-  $("#settingsModal").modal("show"); // remove when done
+  // $("#settingsModal").modal("show"); // remove when done
   /** Settings */
   // Begin General tab
   // raffle title

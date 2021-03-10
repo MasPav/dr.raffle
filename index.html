@@ -19,6 +19,10 @@
       href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link href="./css/app.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap"></script>
     <script src="./js/Winwheel.min.js"></script>
@@ -36,40 +40,86 @@
           >
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a
+              <button
                 data-bs-toggle="modal"
                 data-bs-target="#settingsModal"
                 class="text-dark btn"
                 class="black-text text-2xl px-1 py-0 hover:shadow-md rounded-full hover:bg-gray-100 focus:outline-none"
               >
                 <i class="fa fa-cog"></i>
-              </a>
+              </button>
             </li>
           </ul>
         </div>
       </nav>
       <main style="height: 93vh" class="p-2">
-        <p class="text-center raffleTitle fs-4" id="raffleTitle">
-          Raffle Title
-        </p>
-        <div class="d-sm-flex flex-wrap justify-content-around">
-          <div class="flex-fill">left</div>
-          <div>
-            <canvas
-              height="450"
-              width="450"
-              id="raffleCanvas"
-              class="m-auto cursor-pointer"
+        <div
+          class="card position-absolute top-50 start-50 translate-middle shadow rounded-3 px-5 py-2"
+          id="welcomeCard"
+        >
+          <div class="card-body text-center">
+            <h1 class="display-4">
+              Welcome to <span class="fw-bold">Dr. Raffle!</span>
+            </h1>
+            <p class="lead fs-4">Build, Customize and Run Your Raffles</p>
+            <button
+              class="btn btn-outline-primary shadow"
+              data-bs-toggle="modal"
+              data-bs-target="#settingsModal"
             >
-              Raffle not supported, please use a different browser.
-            </canvas>
+              Let's Begin
+            </button>
           </div>
-          <div class="flex-fill">right</div>
+        </div>
+        <div id="raffleArea" class="hidden">
+          <p class="text-center hidden fs-4" id="raffleTitle"></p>
+          <div class="d-sm-flex flex-wrap justify-content-around">
+            <div class="flex-fill position-relative">
+              <h1
+                class="fs-3 hidden animate__animated animate__fadeInLeft position-absolute top-50 start-50 translate-middle"
+                id="winner"
+              ></h1>
+            </div>
+            <div class="text-center">
+              <i class="fas fa-arrow-down d-block" id="winnerPointer"></i>
+              <canvas
+                height="450"
+                width="450"
+                id="raffleCanvas"
+                class="m-auto cursor-pointer"
+              >
+                Raffle not supported, please use a different browser.
+              </canvas>
+              <div class="text-center mt-3">
+                <button
+                  class="btn btn-outline-dark controlBtn px-5 rounded"
+                  onclick="onSpinWheel();"
+                >
+                  <i class="fas fa-spinner"></i> Spin
+                </button>
+                <button
+                  class="btn btn-outline-dark controlBtn px-5 rounded"
+                  onclick="onResetWheel();"
+                >
+                  <i class="fas fa-undo"></i> Reset
+                </button>
+              </div>
+            </div>
+            <div class="flex-fill position-relative text-center">
+              <div
+                class="hidden position-absolute w-75 top-50 start-50 translate-middle shadow animate__animated animate__zoomIn"
+                id="winnersSection"
+              >
+                <h1 class="fs-3 text-warning shadow-sm py-1">Winners</h1>
+                <ul class="fs-4 py-2 list-unstyled" id="winners"></ul>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>
 
-    <!-- Modal -->
+    <!-- Settings Modal -->
     <div
       class="modal fade"
       id="settingsModal"
@@ -113,27 +163,10 @@
                   aria-controls="data"
                   >Data</a
                 >
-                <a
-                  class="list-group-item list-group-item-action"
-                  id="list-messages-list"
-                  data-bs-toggle="list"
-                  href="#list-messages"
-                  role="tab"
-                  aria-controls="messages"
-                  >Messages</a
-                >
-                <a
-                  class="list-group-item list-group-item-action"
-                  id="list-settings-list"
-                  data-bs-toggle="list"
-                  href="#list-settings"
-                  role="tab"
-                  aria-controls="settings"
-                  >Settings</a
-                >
               </div>
               <div
-                class="tab-content w-75 px-4 py-2 bg-light"
+                class="tab-content w-75 px-4 py-2 overflow-auto bg-light"
+                style="min-height: 20em;"
                 id="nav-tabContent"
               >
                 <div
@@ -142,13 +175,12 @@
                   role="tabpanel"
                   aria-labelledby="list-general-list"
                 >
-                  <div class="form-group mb-2">
+                  <div class="form-group my-3">
                     <div class="form-check form-switch text">
                       <input
                         class="form-check-input"
                         type="checkbox"
                         id="showRaffleTitleSwitch"
-                        checked
                       />
                       <label
                         class="form-check-label"
@@ -161,10 +193,11 @@
                       class="form-control"
                       placeholder="Title"
                       id="raffleTitleInput"
-                      value="Raffle Title"
+                      value=""
+                      disabled
                     />
                   </div>
-                  <div class="form-group mb-2">
+                  <div class="form-group mb-3">
                     <label for="raffleSize">Size</label>
                     <select class="form-select" id="raffleSize">
                       <option value="400">Small</option>
@@ -172,13 +205,54 @@
                       <option value="500">Large</option>
                     </select>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group mb-3">
                     <label for="raffleFontSize">Font Size</label>
                     <select class="form-select" id="raffleFontSize">
                       <option value="12">Small</option>
                       <option value="16" selected>Medium</option>
                       <option value="20">Large</option>
                     </select>
+                  </div>
+                  <div class="form-group mb-3">
+                    <div class="form-check form-switch text">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="eliminateWinnerSwitch"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="eliminateWinnerSwitch"
+                        >Eliminate Winner</label
+                      >
+                      <span
+                        class="fa fa-question-circle text-muted"
+                        data-toggle="tooltip"
+                        title="Removes a winning entry from subsequent spins"
+                        data-container="body"
+                      ></span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check form-switch text">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="rememberSettingsSwitch"
+                        checked
+                      />
+                      <label
+                        class="form-check-label"
+                        for="rememberSettingsSwitch"
+                        >Remember Settings</label
+                      >
+                      <span
+                        class="fa fa-question-circle text-muted"
+                        data-toggle="tooltip"
+                        title="Remembers your settings when you revisit our website"
+                        data-container="body"
+                      ></span>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -187,7 +261,7 @@
                   role="tabpanel"
                   aria-labelledby="list-data-list"
                 >
-                  <div class="form-group mb-3">
+                  <div class="form-group my-3">
                     <label for="raffleDataSource">Source </label>
                     <span
                       class="fa fa-question-circle text-muted"
@@ -220,11 +294,6 @@
                           <i class="fas fa-check"></i>
                         </button>
                       </div>
-                      <div
-                        id="manualEntries"
-                        class="d-flex flex-wrap overflow-auto"
-                        style="max-height: 10em"
-                      ></div>
                     </div>
                   </div>
                   <!-- end manual raffle data source -->
@@ -234,33 +303,26 @@
                   <!-- end imports raffle data source -->
                   <div id="apiRaffleDataSource" class="hidden">api data</div>
                   <!-- End Conditional Divs for raffle data sources -->
-                  <div class="mt-3">
-                    <button
-                      class="btn btn-outline-primary"
-                      id="applyRaffleDataChangesBtn"
-                    >
-                      Apply Changes
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="tab-pane fade"
-                  id="list-messages"
-                  role="tabpanel"
-                  aria-labelledby="list-messages-list"
-                >
-                  messages
-                </div>
-                <div
-                  class="tab-pane fade"
-                  id="list-settings"
-                  role="tabpanel"
-                  aria-labelledby="list-settings-list"
-                >
-                  settings
+                  <div
+                    id="raffleDataItems"
+                    class="d-flex flex-wrap overflow-auto"
+                    style="max-height: 10em"
+                  ></div>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="onSaveSettingsChanges()"
+            >
+              Save Changes
+            </button>
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
           </div>
         </div>
       </div>

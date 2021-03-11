@@ -10,3 +10,8 @@
 .hover-cursor-pointer:hover {
   cursor: pointer;
 }
+@media (max-width: 576px) {
+  #welcomeCard {
+    width: 75%;
+  }
+}

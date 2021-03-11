@@ -54,14 +54,15 @@
       </nav>
       <main style="height: 93vh" class="p-2">
         <div
-          class="card position-absolute top-50 start-50 translate-middle shadow rounded-3 px-5 py-2"
+          class="card position-absolute top-50 start-50 translate-middle shadow rounded-3 py-2 px-4"
           id="welcomeCard"
         >
           <div class="card-body text-center">
             <h1 class="display-4">
-              Welcome to <span class="fw-bold">Dr. Raffle!</span>
+              Welcome! to
+              <span class="fw-bold d-sm-inline d-block">Dr. Raffle</span>
             </h1>
-            <p class="lead fs-4">Build, Customize and Run Your Raffles</p>
+            <p class="lead fs-4">Easily Build, Customize and Run Raffles</p>
             <button
               class="btn btn-outline-primary shadow"
               data-bs-toggle="modal"
@@ -72,7 +73,7 @@
           </div>
         </div>
         <div id="raffleArea" class="hidden">
-          <p class="text-center hidden fs-4" id="raffleTitle"></p>
+          <p class="text-center fs-4" id="raffleTitle"></p>
           <div class="d-sm-flex flex-wrap justify-content-around">
             <div class="flex-fill position-relative">
               <h1
@@ -85,6 +86,7 @@
               <canvas
                 height="450"
                 width="450"
+                data-responsiveScaleHeight="true"
                 id="raffleCanvas"
                 class="m-auto cursor-pointer"
               >
@@ -166,7 +168,7 @@
               </div>
               <div
                 class="tab-content w-75 px-4 py-2 overflow-auto bg-light"
-                style="min-height: 22em;"
+                style="min-height: 22em"
                 id="nav-tabContent"
               >
                 <div
@@ -176,28 +178,14 @@
                   aria-labelledby="list-general-list"
                 >
                   <div class="form-group my-3">
-                    <div class="form-check form-switch text">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="showRaffleTitleSwitch"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="showRaffleTitleSwitch"
-                        >Show Title</label
-                      >
-                    </div>
+                    <label for="raffleTitleInput">Title</label>
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Title"
                       id="raffleTitleInput"
-                      value=""
-                      disabled
                     />
                   </div>
-                  <div class="form-group mb-3">
+                  <!-- <div class="form-group mb-3">
                     <label for="raffleSize">Size</label>
                     <select class="form-select" id="raffleSize">
                       <option value="400">Small</option>
@@ -212,7 +200,7 @@
                       <option value="16" selected>Medium</option>
                       <option value="20">Large</option>
                     </select>
-                  </div>
+                  </div> -->
                   <div class="form-group mb-3">
                     <div class="form-check form-switch text">
                       <input

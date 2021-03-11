@@ -1,191 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dr. Raffle</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-    <link href="./css/app.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap"></script>
-    <script src="./js/Winwheel.min.js"></script>
-  </head>
 
-  <body>
-    <div class="min-vh-100 max-vw-100">
-      <nav class="navbar shadow p-0" style="max-height: 6vh">
-        <div class="container">
-          <a
-            class="navbar-brand text-dark fs-4"
-            href="/"
-            style="font-family: 'dancing script'"
-            >Dr. Raffle</a
-          >
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#settingsModal"
-                class="text-dark btn"
-                class="black-text text-2xl px-1 py-0 hover:shadow-md rounded-full hover:bg-gray-100 focus:outline-none"
-              >
-                <i class="fa fa-cog"></i>
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <main style="height: 93vh" class="p-2">
-        <div
-          class="card position-absolute top-50 start-50 translate-middle shadow rounded-3 py-2 px-4"
-          id="welcomeCard"
-        >
-          <div class="card-body text-center">
-            <h1 class="display-4">
-              Welcome! to
-              <span class="fw-bold d-sm-inline d-block">Dr. Raffle</span>
-            </h1>
-            <p class="lead fs-4">Easily Build, Customize and Run Raffles</p>
-            <button
-              class="btn btn-outline-primary shadow"
-              data-bs-toggle="modal"
-              data-bs-target="#settingsModal"
-            >
-              Let's Begin
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Raffle</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link href="./css/app.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap"></script>
+  <script src="./js/Winwheel.min.js"></script>
+</head>
+
+<body>
+  <div class="min-vh-100 max-vw-100">
+    <nav class="navbar shadow p-0" style="max-height: 6vh">
+      <div class="container">
+        <a class="navbar-brand text-dark fs-4" href="/" style="font-family: 'dancing script'">Dr. Raffle</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <button data-bs-toggle="modal" data-bs-target="#settingsModal" class="text-dark btn"
+              class="black-text text-2xl px-1 py-0 hover:shadow-md rounded-full hover:bg-gray-100 focus:outline-none">
+              <i class="fa fa-cog"></i>
             </button>
-          </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main style="height: 93vh" class="p-2">
+      <div class="card position-absolute top-50 start-50 translate-middle shadow rounded-3 py-2 px-4" id="welcomeCard">
+        <div class="card-body text-center">
+          <h1 class="display-4">
+            Welcome! to
+            <span class="fw-bold d-sm-inline d-block">Dr. Raffle</span>
+          </h1>
+          <p class="lead fs-4">Easily Build, Customize and Run Raffles</p>
+          <button class="btn btn-outline-primary shadow" data-bs-toggle="modal" data-bs-target="#settingsModal">
+            Let's Begin
+          </button>
         </div>
-        <div id="raffleArea" class="hidden">
-          <p class="text-center fs-4" id="raffleTitle"></p>
-          <div class="d-sm-flex flex-wrap justify-content-around">
-            <div class="flex-fill position-relative">
-              <h1
-                class="fs-3 hidden animate__animated animate__fadeInLeft position-absolute top-50 start-50 translate-middle"
-                id="winner"
-              ></h1>
-            </div>
-            <div class="text-center">
-              <i class="fas fa-arrow-down d-block" id="winnerPointer"></i>
-              <canvas
-                height="450"
-                width="450"
-                data-responsiveScaleHeight="true"
-                id="raffleCanvas"
-                class="m-auto cursor-pointer"
-              >
-                Raffle not supported, please use a different browser.
-              </canvas>
-              <div class="text-center mt-3">
-                <button
-                  class="btn btn-outline-dark controlBtn px-5 rounded"
-                  onclick="onSpinWheel();"
-                >
-                  <i class="fas fa-spinner"></i> Spin
-                </button>
-                <button
-                  class="btn btn-outline-dark controlBtn px-5 rounded"
-                  onclick="onResetWheel();"
-                >
-                  <i class="fas fa-undo"></i> Reset
-                </button>
-              </div>
-            </div>
-            <div class="flex-fill position-relative text-center">
-              <div
-                class="hidden position-absolute w-75 top-50 start-50 translate-middle shadow animate__animated animate__zoomIn"
-                id="winnersSection"
-              >
-                <h1 class="fs-3 text-warning shadow-sm py-1">Winners</h1>
-                <ul class="fs-4 py-2 list-unstyled" id="winners"></ul>
-              </div>
+      </div>
+      <div id="raffleArea" class="hidden">
+        <p class="text-center fs-4" id="raffleTitle"></p>
+        <div class="d-sm-flex flex-wrap justify-content-around">
+          <div class="flex-fill position-relative">
+            <h1
+              class="fs-3 hidden animate__animated animate__fadeInLeft position-absolute top-50 start-50 translate-middle"
+              id="winner"></h1>
+          </div>
+          <div class="text-center">
+            <i class="fas fa-arrow-down d-block" id="winnerPointer"></i>
+            <canvas height="450" width="450" data-responsiveScaleHeight="true" id="raffleCanvas"
+              class="m-auto cursor-pointer">
+              Raffle not supported, please use a different browser.
+            </canvas>
+            <div class="text-center mt-3">
+              <button class="btn btn-outline-dark controlBtn px-5 rounded" onclick="onSpinWheel();">
+                <i class="fas fa-spinner"></i> Spin
+              </button>
+              <button class="btn btn-outline-dark controlBtn px-5 rounded" onclick="onResetWheel();">
+                <i class="fas fa-undo"></i> Reset
+              </button>
             </div>
           </div>
+          <div class="flex-fill position-relative text-center">
+            <div
+              class="hidden position-absolute w-75 top-50 start-50 translate-middle shadow animate__animated animate__zoomIn"
+              id="winnersSection">
+              <h1 class="fs-3 text-warning shadow-sm py-1">Winners</h1>
+              <ul class="fs-4 py-2 list-unstyled" id="winners"></ul>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
+  </div>
 
-    <!-- Settings Modal -->
-    <div
-      class="modal fade"
-      id="settingsModal"
-      tabindex="-1"
-      aria-labelledby="settingsModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header shadow">
-            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body p-0">
-            <div class="d-flex w-100">
-              <div
-                class="list-group list-group-flush w-25"
-                id="list-tab"
-                role="tablist"
-              >
-                <a
-                  class="list-group-item list-group-item-action active"
-                  id="list-general-list"
-                  data-bs-toggle="list"
-                  href="#list-general"
-                  role="tab"
-                  aria-controls="general"
-                  ><i class="fas fa-cog fa-lg me-3"></i>General</a
-                >
-                <a
-                  class="list-group-item list-group-item-action"
-                  id="list-data-list"
-                  data-bs-toggle="list"
-                  href="#list-data"
-                  role="tab"
-                  aria-controls="data"
-                  ><i class="fas fa-database fa-lg me-3"></i> Data</a
-                >
-              </div>
-              <div
-                class="tab-content w-75 px-4 py-2 overflow-auto bg-light"
-                style="min-height: 22em"
-                id="nav-tabContent"
-              >
-                <div
-                  class="tab-pane fade show active"
-                  id="list-general"
-                  role="tabpanel"
-                  aria-labelledby="list-general-list"
-                >
-                  <div class="form-group my-3">
-                    <label for="raffleTitleInput">Title</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="raffleTitleInput"
-                    />
-                  </div>
-                  <!-- <div class="form-group mb-3">
+  <!-- Settings Modal -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header shadow">
+          <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div class="d-flex w-100">
+            <div class="list-group list-group-flush w-25" id="list-tab" role="tablist">
+              <a class="list-group-item list-group-item-action active" id="list-general-list" data-bs-toggle="list"
+                href="#list-general" role="tab" aria-controls="general"><i class="fas fa-cog fa-lg me-3"></i>General</a>
+              <a class="list-group-item list-group-item-action" id="list-data-list" data-bs-toggle="list"
+                href="#list-data" role="tab" aria-controls="data"><i class="fas fa-database fa-lg me-3"></i> Data</a>
+            </div>
+            <div class="tab-content w-75 px-4 py-2 overflow-auto bg-light" style="min-height: 22em" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="list-general" role="tabpanel"
+                aria-labelledby="list-general-list">
+                <div class="form-group my-3">
+                  <label for="raffleTitleInput">Title</label>
+                  <input type="text" class="form-control" id="raffleTitleInput" />
+                </div>
+                <!-- <div class="form-group mb-3">
                     <label for="raffleSize">Size</label>
                     <select class="form-select" id="raffleSize">
                       <option value="400">Small</option>
@@ -201,130 +119,77 @@
                       <option value="20">Large</option>
                     </select>
                   </div> -->
-                  <div class="form-group mb-3">
-                    <div class="form-check form-switch text">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="eliminateWinnerSwitch"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="eliminateWinnerSwitch"
-                        >Eliminate Winner</label
-                      >
-                      <span
-                        class="fa fa-question-circle text-muted"
-                        data-toggle="tooltip"
-                        title="Removes a winning entry from subsequent spins"
-                        data-container="body"
-                      ></span>
-                    </div>
+                <div class="form-group mb-3">
+                  <div class="form-check form-switch text">
+                    <input class="form-check-input" type="checkbox" id="eliminateWinnerSwitch" />
+                    <label class="form-check-label" for="eliminateWinnerSwitch">Eliminate Winner</label>
+                    <span class="fa fa-question-circle text-muted" data-toggle="tooltip"
+                      title="Removes a winning entry from subsequent spins" data-container="body"></span>
                   </div>
-                  <div class="form-group">
-                    <div class="form-check form-switch text">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="rememberSettingsSwitch"
-                        checked
-                      />
-                      <label
-                        class="form-check-label"
-                        for="rememberSettingsSwitch"
-                        >Remember Settings</label
-                      >
-                      <span
-                        class="fa fa-question-circle text-muted"
-                        data-toggle="tooltip"
-                        title="Remembers your settings when you revisit our website"
-                        data-container="body"
-                      ></span>
+                </div>
+                <div class="form-group">
+                  <div class="form-check form-switch text">
+                    <input class="form-check-input" type="checkbox" id="rememberSettingsSwitch" checked />
+                    <label class="form-check-label" for="rememberSettingsSwitch">Remember Settings</label>
+                    <span class="fa fa-question-circle text-muted" data-toggle="tooltip"
+                      title="Remembers your settings when you revisit our website" data-container="body"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="list-data" role="tabpanel" aria-labelledby="list-data-list">
+                <div class="form-group my-3">
+                  <label for="raffleDataSource">Source </label>
+                  <span class="fa fa-question-circle text-muted" data-toggle="tooltip"
+                    title="Specifies where Raffle data is generated from" data-container="body"></span>
+                  <select class="form-select" id="raffleDataSource">
+                    <option value="manual" selected>Manual Entries</option>
+                    <option value="imports">Imports</option>
+                    <option value="api">API</option>
+                  </select>
+                </div>
+                <!-- Begin Conditional Divs for raffle data sources -->
+                <div id="manualRaffleDataSource">
+                  <div class="row mb-1">
+                    <div class="col-md-6 col-10">
+                      <input type="text" class="form-control" id="manualEntryInput" placeholder="Enter your entry" />
+                    </div>
+                    <div class="col-md-6 col-2 p-0 mb-1">
+                      <button class="btn btn-primary" id="manualEntrySubmitBtn">
+                        <i class="fas fa-check"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
-                <div
-                  class="tab-pane fade"
-                  id="list-data"
-                  role="tabpanel"
-                  aria-labelledby="list-data-list"
-                >
-                  <div class="form-group my-3">
-                    <label for="raffleDataSource">Source </label>
-                    <span
-                      class="fa fa-question-circle text-muted"
-                      data-toggle="tooltip"
-                      title="Specifies where Raffle data is generated from"
-                      data-container="body"
-                    ></span>
-                    <select class="form-select" id="raffleDataSource">
-                      <option value="manual" selected>Manual Entries</option>
-                      <option value="imports">Imports</option>
-                      <option value="api">API</option>
-                    </select>
-                  </div>
-                  <!-- Begin Conditional Divs for raffle data sources -->
-                  <div id="manualRaffleDataSource">
-                    <div class="row mb-1">
-                      <div class="col-md-6 col-10">
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="manualEntryInput"
-                          placeholder="Enter your entry"
-                        />
-                      </div>
-                      <div class="col-md-6 col-2 p-0 mb-1">
-                        <button
-                          class="btn btn-primary"
-                          id="manualEntrySubmitBtn"
-                        >
-                          <i class="fas fa-check"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- end manual raffle data source -->
-                  <div id="importsRaffleDataSource" class="hidden">
-                    imports data
-                  </div>
-                  <!-- end imports raffle data source -->
-                  <div id="apiRaffleDataSource" class="hidden">api data</div>
-                  <!-- End Conditional Divs for raffle data sources -->
-                  <div
-                    id="raffleDataItems"
-                    class="d-flex flex-wrap overflow-auto"
-                    style="max-height: 10em"
-                  ></div>
+                <!-- end manual raffle data source -->
+                <div id="importsRaffleDataSource" class="hidden">
+                  imports data
                 </div>
+                <!-- end imports raffle data source -->
+                <div id="apiRaffleDataSource" class="hidden">api data</div>
+                <!-- End Conditional Divs for raffle data sources -->
+                <div id="raffleDataItems" class="d-flex flex-wrap overflow-auto" style="max-height: 10em"></div>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="onSaveSettingsChanges()"
-            >
-              Save Changes
-            </button>
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-              Close
-            </button>
-          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="onSaveSettingsChanges()">
+            Save Changes
+          </button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            Close
+          </button>
         </div>
       </div>
     </div>
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-      crossorigin="anonymous"
-    ></script>
-    <script src="./js/app.js"></script>
-  </body>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+  </script>
+  <script src="./js/app.js"></script>
+</body>
+
 </html>

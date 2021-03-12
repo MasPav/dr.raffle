@@ -84,7 +84,7 @@ const formatRaffleData = data => {
     textFillStyle: "#fff"
   }));
 };
-$("#settingsModal").on("show.bs.modal", function() {
+$("#settingsModal").on("show.bs.modal", function () {
   // general tab
   $("#raffleTitleInput").val(raffleSettings.general.title);
   $("#raffleSize").val(raffleSettings.general.raffleSize);
@@ -104,7 +104,7 @@ $("#settingsModal").on("show.bs.modal", function() {
   tempRaffleData = raffleSettings.data.items.slice();
   addRaffleDataItems(tempRaffleData);
 });
-$("#raffleDataSource").on("change", function() {
+$("#raffleDataSource").on("change", function () {
   $("#raffleDataItems").empty();
   tempRaffleData = [];
   switch ($(this).val()) {
@@ -159,27 +159,28 @@ onSaveSettingsChanges = () => {
     alert("Not enough or no data has been provided for your raffle");
     return;
   }
+  raffleSettings.data.source = $("#raffleDataSource").val();
+  raffleSettings.data.items = tempRaffleData.slice();
   raffleSettings.general.title = $("#raffleTitleInput").val();
   raffleSettings.general.eliminateWinner = $("#eliminateWinnerSwitch").prop(
     "checked"
   );
-  raffleSettings.general.rememberSettings
-    ? window.localStorage.setItem(
-        "userSettings",
-        JSON.stringify(raffleSettings)
-      )
-    : window.localStorage.removeItem(
-        "userSettings",
-        JSON.stringify(raffleSettings)
-      );
-  raffleSettings.data.source = $("#raffleDataSource").val();
-  raffleSettings.data.items = tempRaffleData.slice();
+  raffleSettings.general.rememberSettings = $('#rememberSettingsSwitch').prop("checked");
+  raffleSettings.general.rememberSettings ?
+    window.localStorage.setItem(
+      "userSettings",
+      JSON.stringify(raffleSettings)
+    ) :
+    window.localStorage.removeItem(
+      "userSettings",
+      JSON.stringify(raffleSettings)
+    );
   createWheel(raffleSettings.data.items);
   updateRaffleArea();
   toggleWelcomeAndRaffleArea();
   $("#settingsModal").modal("hide");
 };
-$(function() {
+$(function () {
   // initalize boostrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
   // $("#settingsModal").modal("show"); // remove when done
@@ -208,7 +209,7 @@ $(function() {
   // Manual Entries
   // End Data tab
 });
-$("#manualEntrySubmitBtn").on("click", function() {
+$("#manualEntrySubmitBtn").on("click", function () {
   if (!$("#manualEntryInput").val()) {
     return;
   }
@@ -219,9 +220,9 @@ $("#manualEntrySubmitBtn").on("click", function() {
 const removeRaffleDataItem = e => {
   tempRaffleData.splice(
     e
-      .parent()
-      .parent()
-      .attr("data-position"),
+    .parent()
+    .parent()
+    .attr("data-position"),
     1
   );
   $("#raffleDataItems").empty();

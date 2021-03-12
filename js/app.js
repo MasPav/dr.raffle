@@ -5,15 +5,15 @@ let raffleSettings = {
     raffleSize: "450",
     fontSize: "16",
     eliminateWinner: false,
-    rememberSettings: true
+    rememberSettings: false,
   },
   data: {
     source: "manual",
     items: [],
-    originalItems: []
+    originalItems: [],
   },
   hasEnded: false,
-  hasCreatedRaffle: false
+  hasCreatedRaffle: false,
 };
 const createWheel = () => {
   const data = formatRaffleData(raffleSettings.data.items);
@@ -33,7 +33,7 @@ const createWheel = () => {
       spins: 10, // The number of complete 360 degree rotations the wheel is to do.
       easing: "Power4.easeInOut",
       // Remember to do something after the animation has finished specify callback function.
-      callbackFinished: "onSpinStopped()"
+      callbackFinished: "onSpinStopped()",
 
       // During the animation need to call the drawTriangle() to re-draw the pointer each frame.
     },
@@ -43,15 +43,17 @@ const createWheel = () => {
       display: false,
       strokeStyle: "red",
       lineWidth: 3,
-      textMargin: 0
-    }
+      textMargin: 0,
+    },
   });
   raffleSettings.hasCreatedRaffle = true;
 };
 const addRaffleDataItems = (items, dataPosition = null) => {
   items.forEach((item, index) => {
     $("#raffleDataItems").prepend(
-      `<h5 data-position="${dataPosition || index}">
+      `<h5 data-position="${
+        dataPosition !== null ? dataPosition : index
+      }" class="bg-white me-1">
         <span class="badge text-primary shadow-sm">
           <span class="me-1">${item}</span>
           <i onclick="removeRaffleDataItem($(this))"
@@ -87,7 +89,7 @@ const initWinWheel = () => {
       spins: 10, // The number of complete 360 degree rotations the wheel is to do.
       easing: "Power4.easeInOut",
       // Remember to do something after the animation has finished specify callback function.
-      callbackFinished: "onSpinStopped()"
+      callbackFinished: "onSpinStopped()",
 
       // During the animation need to call the drawTriangle() to re-draw the pointer each frame.
     },
@@ -97,44 +99,38 @@ const initWinWheel = () => {
       display: false,
       strokeStyle: "red",
       lineWidth: 3,
-      textMargin: 0
-    }
+      textMargin: 0,
+    },
   });
 };
 const updateWheel = () => {
   createWheel();
 };
-const formatRaffleData = data => {
+const formatRaffleData = (data) => {
   return data.map((item, index) => ({
     text: item.length > 22 ? `${item.slice(0, 22)}...` : item,
     fillStyle: index % 2 === 0 ? "#007bff" : "#343a40",
-    textFillStyle: "#fff"
+    textFillStyle: "#fff",
   }));
 };
-$("#raffleDataSource").on("change", function() {
+$("#raffleDataSource").on("change", function () {
   raffleSettings.data.source = $(this).val();
   $("#raffleDataItems").empty();
   switch ($(this).val()) {
     case "imports":
-      $("#importsRaffleDataSource")
-        .addClass("show")
-        .removeClass("hidden");
+      $("#importsRaffleDataSource").addClass("show").removeClass("hidden");
       $("#manualRaffleDataSource, #apiRaffleDataSource")
         .addClass("hidden")
         .removeClass("show");
       break;
     case "api":
-      $("#apiRaffleDataSource")
-        .addClass("show")
-        .removeClass("hidden");
+      $("#apiRaffleDataSource").addClass("show").removeClass("hidden");
       $("#importsRaffleDataSource, #manualRaffleDataSource")
         .addClass("hidden")
         .removeClass("show");
       break;
     default:
-      $("#manualRaffleDataSource")
-        .addClass("show")
-        .removeClass("hidden");
+      $("#manualRaffleDataSource").addClass("show").removeClass("hidden");
       $("#importsRaffleDataSource, #apiRaffleDataSource")
         .addClass("hidden")
         .removeClass("show");
@@ -173,16 +169,11 @@ const loadRememberedSettings = () => {
     raffleSettings.general.rememberSettings
   );
   // data tab
-  $("#raffleDataSource")
-    .val(raffleSettings.data.source)
-    .trigger("change");
+  $("#raffleDataSource").val(raffleSettings.data.source).trigger("change");
   addRaffleDataItems(raffleSettings.data.items);
 };
 loadRememberedSettings();
 onSaveSettingsChanges = () => {
-  raffleSettings.data.items = raffleSettings.data.items.filter(
-    item => item !== null
-  );
   if (raffleSettings.data.items.length <= 1) {
     alert("Not enough or no data has been provided for your raffle");
     return;
@@ -198,13 +189,12 @@ onSaveSettingsChanges = () => {
         "userSettings",
         JSON.stringify(raffleSettings)
       );
-  // check if no raffle has been created
   createWheel();
   updateRaffleArea();
   toggleWelcomeAndRaffleArea();
   $("#settingsModal").modal("hide");
 };
-$(function() {
+$(function () {
   // initalize boostrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
   // $("#settingsModal").modal("show"); // remove when done
@@ -212,26 +202,26 @@ $(function() {
   // Begin General tab
   // raffle title
   // raffle size
-  $("#raffleSize").on("change", function() {
+  $("#raffleSize").on("change", function () {
     // raffle size
     raffleSettings.general.raffleSize = $(this).val();
   });
   // raffle font size
-  $("#raffleFontSize").on("change", function() {
+  $("#raffleFontSize").on("change", function () {
     raffleSettings.general.fontSize = $(this).val();
   });
   // winner elimination
-  $("#eliminateWinnerSwitch").on("change", function() {
+  $("#eliminateWinnerSwitch").on("change", function () {
     raffleSettings.general.eliminateWinner = $(this).prop("checked");
   });
   // remember saved raffle
-  $("#rememberSettingsSwitch").on("change", function() {
+  $("#rememberSettingsSwitch").on("change", function () {
     raffleSettings.general.rememberSettings = $(this).prop("checked");
   });
 
   // Begin Data tab
   // Manual Entries
-  $("#manualEntrySubmitBtn").on("click", function() {
+  $("#manualEntrySubmitBtn").on("click", function () {
     if (!$("#manualEntryInput").val()) {
       return;
     }
@@ -244,16 +234,13 @@ $(function() {
   });
   // End Data tab
 });
-const removeRaffleDataItem = e => {
-  delete raffleSettings.data.items[
-    e
-      .parent()
-      .parent()
-      .attr("data-position")
-  ];
-  e.parent()
-    .parent()
-    .remove();
+const removeRaffleDataItem = (e) => {
+  raffleSettings.data.items.splice(
+    e.parent().parent().attr("data-position"),
+    1
+  );
+  $("#raffleDataItems").empty();
+  addRaffleDataItems(raffleSettings.data.items);
 };
 
 const onSpinWheel = () => {
@@ -275,9 +262,7 @@ const onSpinStopped = () => {
   const originalWinnerColor = winner.fillStyle;
   const winnerPosition = theWheel.getIndicatedSegmentNumber();
   winner.fillStyle = "#000";
-  $("#winner")
-    .text(winner.text)
-    .removeClass("hidden");
+  $("#winner").text(winner.text).removeClass("hidden");
   theWheel.draw();
   setTimeout(() => {
     if (raffleSettings.general.eliminateWinner) {

@@ -84,7 +84,30 @@ const formatRaffleData = data => {
     textFillStyle: "#fff"
   }));
 };
-$("#settingsModal").on("show.bs.modal", function () {
+$("#importedRaffleDataSourceInput").on("change", function(e) {
+  const upload = document.querySelector("#importedRaffleDataSourceInput");
+  if (upload.files.length <= 0) {
+    return;
+  }
+  $("#importsRaffleDataSource .spinner").removeClass("hidden");
+  const uploadedFile = upload.files[0];
+  const fileReader = new FileReader();
+  let file;
+  fileReader.onload = e => {
+    file = e.target.result;
+    tempRaffleData = file.split(/\r\n|\n/);
+    tempRaffleData = tempRaffleData.filter(item => item !== "");
+    raffleSettings.data.items = tempRaffleData.slice();
+    addRaffleDataItems(tempRaffleData);
+    $("#importsRaffleDataSource .spinner").addClass("hidden");
+  };
+  fileReader.onerror = error => {
+    $("#importsRaffleDataSource .spinner").addClass("hidden");
+    alert(error.target.error.name);
+  };
+  fileReader.readAsText(uploadedFile);
+});
+$("#settingsModal").on("show.bs.modal", function() {
   // general tab
   $("#raffleTitleInput").val(raffleSettings.general.title);
   $("#raffleSize").val(raffleSettings.general.raffleSize);
@@ -104,7 +127,7 @@ $("#settingsModal").on("show.bs.modal", function () {
   tempRaffleData = raffleSettings.data.items.slice();
   addRaffleDataItems(tempRaffleData);
 });
-$("#raffleDataSource").on("change", function () {
+$("#raffleDataSource").on("change", function() {
   $("#raffleDataItems").empty();
   tempRaffleData = [];
   switch ($(this).val()) {
@@ -165,25 +188,27 @@ onSaveSettingsChanges = () => {
   raffleSettings.general.eliminateWinner = $("#eliminateWinnerSwitch").prop(
     "checked"
   );
-  raffleSettings.general.rememberSettings = $('#rememberSettingsSwitch').prop("checked");
-  raffleSettings.general.rememberSettings ?
-    window.localStorage.setItem(
-      "userSettings",
-      JSON.stringify(raffleSettings)
-    ) :
-    window.localStorage.removeItem(
-      "userSettings",
-      JSON.stringify(raffleSettings)
-    );
+  raffleSettings.general.rememberSettings = $("#rememberSettingsSwitch").prop(
+    "checked"
+  );
+  raffleSettings.general.rememberSettings
+    ? window.localStorage.setItem(
+        "userSettings",
+        JSON.stringify(raffleSettings)
+      )
+    : window.localStorage.removeItem(
+        "userSettings",
+        JSON.stringify(raffleSettings)
+      );
   createWheel(raffleSettings.data.items);
   updateRaffleArea();
   toggleWelcomeAndRaffleArea();
   $("#settingsModal").modal("hide");
 };
-$(function () {
+$(function() {
   // initalize boostrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
-  // $("#settingsModal").modal("show"); // remove when done
+  $("#settingsModal").modal("show"); // remove when done
   /** Settings */
   // Begin General tab
   // raffle title
@@ -209,7 +234,7 @@ $(function () {
   // Manual Entries
   // End Data tab
 });
-$("#manualEntrySubmitBtn").on("click", function () {
+$("#manualEntrySubmitBtn").on("click", function() {
   if (!$("#manualEntryInput").val()) {
     return;
   }
@@ -220,9 +245,9 @@ $("#manualEntrySubmitBtn").on("click", function () {
 const removeRaffleDataItem = e => {
   tempRaffleData.splice(
     e
-    .parent()
-    .parent()
-    .attr("data-position"),
+      .parent()
+      .parent()
+      .attr("data-position"),
     1
   );
   $("#raffleDataItems").empty();
@@ -252,7 +277,6 @@ const onSpinStopped = () => {
     .text(winner.text)
     .removeClass("hidden");
   theWheel.draw();
-  console.log(raffleSettings.general.eliminateWinner);
   setTimeout(() => {
     if (raffleSettings.general.eliminateWinner) {
       spinData.splice(winnerPosition - 1, 1);

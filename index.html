@@ -157,7 +157,7 @@
                     title="Specifies where Raffle data is generated from" data-container="body"></span>
                   <select class="form-select" id="raffleDataSource">
                     <option value="manual" selected>Manual Entries</option>
-                    <option value="imports" disabled>Imports</option>
+                    <option value="imports">Import a file</option>
                     <option value="api" disabled>API</option>
                   </select>
                 </div>
@@ -167,7 +167,7 @@
                     <div class="col-md-6 col-10">
                       <input type="text" class="form-control" id="manualEntryInput" placeholder="Enter your entry" />
                     </div>
-                    <div class="col-md-6 col-2 p-0 mb-1">
+                    <div class="col-md-6 col-2 p-0">
                       <button class="btn btn-primary" id="manualEntrySubmitBtn">
                         <i class="fas fa-check"></i>
                       </button>
@@ -176,12 +176,20 @@
                 </div>
                 <!-- end manual raffle data source -->
                 <div id="importsRaffleDataSource" class="hidden">
-                  imports data
+                  <div class="form-group">
+                    <input class="form-control" type="file" id="importedRaffleDataSourceInput">
+                  </div>
+                  <div class="spinner hidden">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div> <small>Loading your data...</small>
+                  </div>
                 </div>
                 <!-- end imports raffle data source -->
                 <div id="apiRaffleDataSource" class="hidden">api data</div>
                 <!-- End Conditional Divs for raffle data sources -->
-                <div id="raffleDataItems" class="d-flex flex-wrap overflow-auto p-2" style="max-height: 10em"></div>
+                <div id="raffleDataItems" class="d-flex flex-wrap overflow-auto my-2" style="max-height: 10em">
+                </div>
               </div>
             </div>
           </div>

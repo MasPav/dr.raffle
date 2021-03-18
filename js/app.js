@@ -5,18 +5,18 @@ let raffleSettings = {
     raffleSize: "450",
     fontSize: "16",
     eliminateWinner: false,
-    rememberSettings: false
+    rememberSettings: false,
   },
   data: {
     source: "manual",
-    items: []
+    items: [],
   },
   hasEnded: false,
-  hasCreatedRaffle: false
+  hasCreatedRaffle: false,
 };
 let tempRaffleData = [];
 let spinData = [];
-const createWheel = wheelData => {
+const createWheel = (wheelData) => {
   spinData = wheelData.slice();
   const data = formatRaffleData(spinData);
   theWheel = new Winwheel({
@@ -24,7 +24,7 @@ const createWheel = wheelData => {
     numSegments: data.length,
     responsive: true,
     segments: data,
-    lineWidth: 3,
+    lineWidth: 2,
     textFontFamily: "sans-serif",
     textFontSize: raffleSettings.general.fontSize,
     textAlignment: "outer",
@@ -36,7 +36,7 @@ const createWheel = wheelData => {
       spins: 10, // The number of complete 360 degree rotations the wheel is to do.
       easing: "Power4.easeInOut",
       // Remember to do something after the animation has finished specify callback function.
-      callbackFinished: "onSpinStopped()"
+      callbackFinished: "onSpinStopped()",
 
       // During the animation need to call the drawTriangle() to re-draw the pointer each frame.
     },
@@ -45,9 +45,9 @@ const createWheel = wheelData => {
     pointerGuide: {
       display: false,
       strokeStyle: "red",
-      lineWidth: 3,
-      textMargin: 0
-    }
+      lineWidth: 2,
+      textMargin: 0,
+    },
   });
   raffleSettings.hasCreatedRaffle = true;
 };
@@ -74,17 +74,17 @@ const updateRaffleArea = () => {
   //   width: raffleSettings.general.raffleSize,
   // });
 };
-const updateWheel = data => {
+const updateWheel = (data) => {
   createWheel(data);
 };
-const formatRaffleData = data => {
+const formatRaffleData = (data) => {
   return data.map((item, index) => ({
     text: item.length > 22 ? `${item.slice(0, 22)}...` : item,
     fillStyle: index % 2 === 0 ? "#007bff" : "#343a40",
-    textFillStyle: "#fff"
+    textFillStyle: "#fff",
   }));
 };
-$("#importedRaffleDataSourceInput").on("change", function(e) {
+$("#importedRaffleDataSourceInput").on("change", function (e) {
   const upload = document.querySelector("#importedRaffleDataSourceInput");
   if (upload.files.length <= 0) {
     return;
@@ -93,21 +93,21 @@ $("#importedRaffleDataSourceInput").on("change", function(e) {
   const uploadedFile = upload.files[0];
   const fileReader = new FileReader();
   let file;
-  fileReader.onload = e => {
+  fileReader.onload = (e) => {
     file = e.target.result;
     tempRaffleData = file.split(/\r\n|\n/);
-    tempRaffleData = tempRaffleData.filter(item => item !== "");
+    tempRaffleData = tempRaffleData.filter((item) => item !== "");
     raffleSettings.data.items = tempRaffleData.slice();
     addRaffleDataItems(tempRaffleData);
     $("#importsRaffleDataSource .spinner").addClass("hidden");
   };
-  fileReader.onerror = error => {
+  fileReader.onerror = (error) => {
     $("#importsRaffleDataSource .spinner").addClass("hidden");
     alert(error.target.error.name);
   };
   fileReader.readAsText(uploadedFile);
 });
-$("#settingsModal").on("show.bs.modal", function() {
+$("#settingsModal").on("show.bs.modal", function () {
   // general tab
   $("#raffleTitleInput").val(raffleSettings.general.title);
   $("#raffleSize").val(raffleSettings.general.raffleSize);
@@ -121,36 +121,28 @@ $("#settingsModal").on("show.bs.modal", function() {
     raffleSettings.general.rememberSettings
   );
   // data tab
-  $("#raffleDataSource")
-    .val(raffleSettings.data.source)
-    .trigger("change");
+  $("#raffleDataSource").val(raffleSettings.data.source).trigger("change");
   tempRaffleData = raffleSettings.data.items.slice();
   addRaffleDataItems(tempRaffleData);
 });
-$("#raffleDataSource").on("change", function() {
+$("#raffleDataSource").on("change", function () {
   $("#raffleDataItems").empty();
   tempRaffleData = [];
   switch ($(this).val()) {
     case "imports":
-      $("#importsRaffleDataSource")
-        .addClass("show")
-        .removeClass("hidden");
+      $("#importsRaffleDataSource").addClass("show").removeClass("hidden");
       $("#manualRaffleDataSource, #apiRaffleDataSource")
         .addClass("hidden")
         .removeClass("show");
       break;
     case "api":
-      $("#apiRaffleDataSource")
-        .addClass("show")
-        .removeClass("hidden");
+      $("#apiRaffleDataSource").addClass("show").removeClass("hidden");
       $("#importsRaffleDataSource, #manualRaffleDataSource")
         .addClass("hidden")
         .removeClass("show");
       break;
     default:
-      $("#manualRaffleDataSource")
-        .addClass("show")
-        .removeClass("hidden");
+      $("#manualRaffleDataSource").addClass("show").removeClass("hidden");
       $("#importsRaffleDataSource, #apiRaffleDataSource")
         .addClass("hidden")
         .removeClass("show");
@@ -205,10 +197,10 @@ onSaveSettingsChanges = () => {
   toggleWelcomeAndRaffleArea();
   $("#settingsModal").modal("hide");
 };
-$(function() {
+$(function () {
   // initalize boostrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
-  $("#settingsModal").modal("show"); // remove when done
+  // $("#settingsModal").modal("show"); // remove when done
   /** Settings */
   // Begin General tab
   // raffle title
@@ -234,7 +226,7 @@ $(function() {
   // Manual Entries
   // End Data tab
 });
-$("#manualEntrySubmitBtn").on("click", function() {
+$("#manualEntrySubmitBtn").on("click", function () {
   if (!$("#manualEntryInput").val()) {
     return;
   }
@@ -242,14 +234,8 @@ $("#manualEntrySubmitBtn").on("click", function() {
   addRaffleDataItems([$("#manualEntryInput").val()], tempRaffleData.length - 1);
   $("#manualEntryInput").val("");
 });
-const removeRaffleDataItem = e => {
-  tempRaffleData.splice(
-    e
-      .parent()
-      .parent()
-      .attr("data-position"),
-    1
-  );
+const removeRaffleDataItem = (e) => {
+  tempRaffleData.splice(e.parent().parent().attr("data-position"), 1);
   $("#raffleDataItems").empty();
   addRaffleDataItems(tempRaffleData);
 };
@@ -273,9 +259,7 @@ const onSpinStopped = () => {
   const originalWinnerColor = winner.fillStyle;
   const winnerPosition = theWheel.getIndicatedSegmentNumber();
   winner.fillStyle = "#000";
-  $("#winner")
-    .text(winner.text)
-    .removeClass("hidden");
+  $("#winner").text(winner.text).removeClass("hidden");
   theWheel.draw();
   setTimeout(() => {
     if (raffleSettings.general.eliminateWinner) {

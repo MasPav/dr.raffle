@@ -16,6 +16,7 @@ let raffleSettings = {
 };
 let tempRaffleData = [];
 let spinData = [];
+let customSwal;
 const createWheel = (wheelData) => {
   spinData = wheelData.slice();
   const data = formatRaffleData(spinData);
@@ -52,6 +53,11 @@ const createWheel = (wheelData) => {
   raffleSettings.hasCreatedRaffle = true;
 };
 const addRaffleDataItems = (items, dataPosition = null) => {
+  if (items.length <= 0) {
+    $("#clearEntriesBtn").addClass("hidden");
+    return;
+  }
+  $("#clearEntriesBtn").removeClass("hidden");
   items.forEach((item, index) => {
     $("#raffleDataItems").prepend(
       `<h5 data-position="${
@@ -69,10 +75,6 @@ const addRaffleDataItems = (items, dataPosition = null) => {
 };
 const updateRaffleArea = () => {
   $("#raffleTitle").text(raffleSettings.general.title);
-  // $("#raffleCanvas").prop({
-  //   height: raffleSettings.general.raffleSize,
-  //   width: raffleSettings.general.raffleSize,
-  // });
 };
 const updateWheel = (data) => {
   createWheel(data);
@@ -95,15 +97,18 @@ $("#importedRaffleDataSourceInput").on("change", function (e) {
   let file;
   fileReader.onload = (e) => {
     file = e.target.result;
-    tempRaffleData = file.split(/\r\n|\n/);
+    tempRaffleData = file.split(/,|,s|\s|\r/);
     tempRaffleData = tempRaffleData.filter((item) => item !== "");
-    raffleSettings.data.items = tempRaffleData.slice();
+    $("#raffleDataItems").empty();
     addRaffleDataItems(tempRaffleData);
     $("#importsRaffleDataSource .spinner").addClass("hidden");
   };
   fileReader.onerror = (error) => {
     $("#importsRaffleDataSource .spinner").addClass("hidden");
-    alert(error.target.error.name);
+    customSwal.error("", "Your file is badly formmatted");
+    console.log(
+      "Raffle Data File Upload Error" + ":" + error.target.error.name
+    );
   };
   fileReader.readAsText(uploadedFile);
 });
@@ -124,6 +129,9 @@ $("#settingsModal").on("show.bs.modal", function () {
   $("#raffleDataSource").val(raffleSettings.data.source).trigger("change");
   tempRaffleData = raffleSettings.data.items.slice();
   addRaffleDataItems(tempRaffleData);
+});
+$("#settingsModal").on("hidden.bs.modal", function () {
+  $("#importedRaffleDataSourceInput").val("");
 });
 $("#raffleDataSource").on("change", function () {
   $("#raffleDataItems").empty();
@@ -171,7 +179,10 @@ const loadRememberedSettings = () => {
 loadRememberedSettings();
 onSaveSettingsChanges = () => {
   if (tempRaffleData.length <= 1) {
-    alert("Not enough or no data has been provided for your raffle");
+    customSwal.info(
+      "Just a sec...",
+      "Please add two or more entries to continue"
+    );
     return;
   }
   raffleSettings.data.source = $("#raffleDataSource").val();
@@ -200,31 +211,8 @@ onSaveSettingsChanges = () => {
 $(function () {
   // initalize boostrap tooltips
   $('[data-toggle="tooltip"]').tooltip();
-  // $("#settingsModal").modal("show"); // remove when done
-  /** Settings */
-  // Begin General tab
-  // raffle title
-  // raffle size
-  // $("#raffleSize").on("change", function() {
-  //   // raffle size
-  //   raffleSettings.general.raffleSize = $(this).val();
-  // });
-  // raffle font size
-  // $("#raffleFontSize").on("change", function() {
-  //   raffleSettings.general.fontSize = $(this).val();
-  // });
-  // winner elimination
-  // $("#eliminateWinnerSwitch").on("change", function() {
-  //   raffleSettings.general.eliminateWinner = $(this).prop("checked");
-  // });
-  // // remember saved raffle
-  // $("#rememberSettingsSwitch").on("change", function() {
-  //   raffleSettings.general.rememberSettings = $(this).prop("checked");
-  // });
-
-  // Begin Data tab
-  // Manual Entries
-  // End Data tab
+  // instantiate SwalSetup class
+  customSwal = new SwalSetup();
 });
 $("#manualEntrySubmitBtn").on("click", function () {
   if (!$("#manualEntryInput").val()) {
@@ -238,6 +226,21 @@ const removeRaffleDataItem = (e) => {
   tempRaffleData.splice(e.parent().parent().attr("data-position"), 1);
   $("#raffleDataItems").empty();
   addRaffleDataItems(tempRaffleData);
+};
+const onClearAllEntries = () => {
+  Swal.fire({
+    title: "Just a sec...",
+    text: "Do you wish to clear all entries",
+    icon: "info",
+    confirmButtonText: "Yes",
+    showCancelButton: true,
+  }).then((action) => {
+    if (action.isConfirmed) {
+      $("#raffleDataItems").empty();
+      tempRaffleData = [];
+      addRaffleDataItems(tempRaffleData);
+    }
+  });
 };
 
 const onSpinWheel = () => {
@@ -282,3 +285,20 @@ const onSpinStopped = () => {
     $(".controlBtn").prop("disabled", false);
   }, 5000);
 };
+const openDataSettings = () => {
+  $("#data-settings-list").tab("show");
+};
+class SwalSetup {
+  success(title = "", message = "") {
+    Swal.fire(title, message, "success");
+  }
+  info(title = "Just a sec...!", message = "") {
+    Swal.fire(title, message, "info");
+  }
+  error(title = "Sorry!", message = "Something bad happened") {
+    Swal.fire(title, message, "error");
+  }
+  show(configurations) {
+    Swal.fire(configurations);
+  }
+}
